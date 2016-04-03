@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
+//REMEMBER: For insertion the query goes like this:
+//			INSERT IGNORE INTO LOCATION(Zip,State) VALUES(...,...);
+
 public class SQL {
 	private static Connection con = null;
 	
