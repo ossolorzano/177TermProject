@@ -46,7 +46,7 @@ public class SQL {
 		int locId = r.getInt(1);
 		//Insert statement
 		query="";
-		query += "INSERT INTO UTILITY(Location_Id, Utility_Name, Service_Type, Ownership, Comm_Rate, Ind_Rate, Res_Rate) ";
+		query += "INSERT IGNORE INTO UTILITY(Location_Id, Utility_Name, Service_Type, Ownership, Comm_Rate, Ind_Rate, Res_Rate) ";
 		query += "VALUES("+locId+",'"+utilityName+"','"+serviceType+"','"+ownership+"',"+Float.parseFloat(commRate)+","+Float.parseFloat(indRate)+","+Float.parseFloat(resRate)+");";
 		con.createStatement().execute(query);
 	}
