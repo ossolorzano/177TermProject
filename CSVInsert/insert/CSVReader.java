@@ -15,6 +15,7 @@ public class CSVReader {
 		//Create SQL Connection
 		sql.initSQLConnection();
 		try{
+			//investor owned csv
 			iou = new CsvReader("CSVInsert"+File.separator+"iouzipcodes2011.csv");
 			iou.readHeaders();
 			while(iou.readRecord()){
@@ -34,6 +35,7 @@ public class CSVReader {
 			}
 			iou.close();
 			
+			//non investor owned csv
 			niou = new CsvReader("CSVInsert"+File.separator+"noniouzipcodes2011.csv");
 			niou.readHeaders();
 			while(niou.readRecord()){
