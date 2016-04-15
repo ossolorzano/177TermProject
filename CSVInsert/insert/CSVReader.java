@@ -8,52 +8,25 @@ import java.sql.SQLException;
 import com.csvreader.CsvReader;
 
 public class CSVReader {
-	private CsvReader iou, niou;
+	private CsvReader latlng;
 	private static SQL sql = new SQL();
 	
 	public void start() throws SQLException{
 		//Create SQL Connection
 		sql.initSQLConnection();
 		try{
-			//investor owned csv
-			iou = new CsvReader("CSVInsert"+File.separator+"iouzipcodes2011.csv");
-			iou.readHeaders();
-			while(iou.readRecord()){
-				String zip = iou.get("zip");
-				String utilityName = iou.get("utility_name");
-				String state = iou.get("state");
-				String serviceType = iou.get("service_type");
-				String ownership = iou.get("ownership");
-				String commRate = iou.get("comm_rate");
-				String indRate = iou.get("ind_rate");
-				String resRate = iou.get("res_rate");
-				System.out.println(zip+","+utilityName+","+state+","+ownership+","+commRate+","+indRate+","+resRate);
+			//longlat csv
+			latlng = new CsvReader("CSVInsert"+File.separator+"latlong.csv");
+			latlng.readHeaders();
+			while(latlng.readRecord()){
+				String zip = latlng.get("ZIP");
+				String latitude = latlng.get("LAT");
+				String longitude = latlng.get("LNG");
+				System.out.println(zip+","+latitude+","+longitude);
 
-				sql.insertLocation(zip, state);
-				
-				sql.insertUtilityData(zip, state, utilityName, serviceType, ownership, commRate, indRate, resRate);
+				sql.insertLatLng(zip, latitude, longitude);
 			}
-			iou.close();
-			
-			//non investor owned csv
-			niou = new CsvReader("CSVInsert"+File.separator+"noniouzipcodes2011.csv");
-			niou.readHeaders();
-			while(niou.readRecord()){
-				String zip = niou.get("zip");
-				String utilityName = niou.get("utility_name");
-				String state = niou.get("state");
-				String serviceType = niou.get("service_type");
-				String ownership = niou.get("ownership");
-				String commRate = niou.get("comm_rate");
-				String indRate = niou.get("ind_rate");
-				String resRate = niou.get("res_rate");
-				System.out.println(zip+","+utilityName+","+state+","+ownership+","+commRate+","+indRate+","+resRate);
-
-				sql.insertLocation(zip, state);
-				
-				sql.insertUtilityData(zip, state, utilityName, serviceType, ownership, commRate, indRate, resRate);
-			}
-			niou.close();
+			latlng.close();
 		}
 		catch(FileNotFoundException e){
 			e.printStackTrace();

@@ -15,7 +15,7 @@ public class SQL {
 		if(con==null){
 			try{
 				Class.forName("com.mysql.jdbc.Driver").newInstance();
-				con = DriverManager.getConnection("jdbc:mysql://athena.ecs.csus.edu:3306/drocck", "drocck", "drocck_db");
+				con = DriverManager.getConnection("jdbc:mysql://athena.ecs.csus.edu:3306/drocck?autoReconnect=true", "drocck", "drocck_db");
 			} catch(SQLException e){
 				System.out.println("Failed.");
 				System.out.println("SQLException: " + e.getMessage());
@@ -48,6 +48,14 @@ public class SQL {
 		query="";
 		query += "INSERT IGNORE INTO UTILITY(Location_Id, Utility_Name, Service_Type, Ownership, Comm_Rate, Ind_Rate, Res_Rate) ";
 		query += "VALUES("+locId+",'"+utilityName+"','"+serviceType+"','"+ownership+"',"+Float.parseFloat(commRate)+","+Float.parseFloat(indRate)+","+Float.parseFloat(resRate)+");";
+		con.createStatement().execute(query);
+	}
+	
+	public void insertLatLng(String zip, String lat, String lng) throws SQLException{
+		String query ="";
+		query += "UPDATE LOCATION "
+				+ "SET Latitude="+lat+", Longitude="+lng+" ";
+		query += "WHERE Zip='"+zip+"';";
 		con.createStatement().execute(query);
 	}
 	
